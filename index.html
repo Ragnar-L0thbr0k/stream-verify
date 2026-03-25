@@ -1,6 +1,6 @@
 <!DOCTYPE html><html><head><meta charset="UTF-8"><script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.light.min.js"></script>
     <style>body{margin:0;background:#000;overflow:hidden;}video{width:100%;height:100vh;}</style></head>
     <body><video id="v" autoplay playsinline controls muted></video>
-    <script>const v=document.getElementById('v');const s=atob('aHR0cHM6Ly9kMmhkMnBwMGtraHhuLmNsb3VkZnJvbnQubmV0LzgzNDAyNTMvbW9iaWxlLWlyZWxhbmQvN0gzSGFlMkhPX2U5OWJjOWVjaUFvQzhEYml2d0lCV0JsWWFqcjM2aWhjUS9jaWQ9NzI4NH5taWQ9Njk4MzY0NDB+ZWNpZD04MzQwMjUzfnBpZD0yfmR0aWQ9MX5zaWQ9MDMzNzU0OTE3OTg1fmdjPTdSVX5nc2Q9NlJNfmdybT0xfmU9MTc3NDUyOTIyMX5pcD0xMDMuMjA5LjI1My41Mi9tYXN0ZXIubTN1OA==');if(Hls.isSupported()){
+    <script>const v=document.getElementById('v');const s=atob('aHR0cHM6Ly9kMmhkMnBwMGtraHhuLmNsb3VkZnJvbnQubmV0LzgzNDAyNTMvbW9iaWxlLWlyZWxhbmQvSGs2Q2lkWFJQc0xxdkM2NXhILXRLUnQ1N2g2VVU0TldGaWE1Vkg1U2pLRS9jaWQ9NzI4NH5taWQ9Njk4MzY0NDB+ZWNpZD04MzQwMjUzfnBpZD0yfmR0aWQ9MX5zaWQ9NDMxNDk3OTMzNzc0fmdjPXJNc35nc2Q9cU0wfmdybT0xfmU9MTc3NDUyOTUwN35pcD0xMDMuMjA5LjI1My4xMC9tYXN0ZXIubTN1OA==');if(Hls.isSupported()){
     const h=new Hls({enableWorker:true,lowLatencyMode:true,liveSyncDuration:0.5});h.loadSource(s);h.attachMedia(v);
     h.on(Hls.Events.MANIFEST_PARSED,()=>{v.play();});}else if(v.canPlayType('application/vnd.apple.mpegurl')){v.src=s;}</script></body></html>
