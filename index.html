@@ -1,44 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Player | System v3.0</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <title>Stream Node</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.light.min.js"></script>
     <style>
-        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-        #video-container { width: 100%; height: 100%; position: relative; }
-        video { width: 100%; height: 100%; background: #000; }
-        .watermark { position: absolute; top: 10px; left: 10px; opacity: 0.5; font-size: 12px; pointer-events: none; }
+        body { margin: 0; background: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        video { width: 100%; height: 100%; object-fit: contain; }
     </style>
 </head>
 <body>
-    <div id="video-container">
-        <div class="watermark">SECURE_NODE_01</div>
-        <video id="video" controls autoplay playsinline></video>
-    </div>
+    <video id="video" autoplay playsinline controls muted></video>
 
     <script>
-        var video = document.getElementById('video');
-        // YOUR PYTHON SCRIPT WILL REPLACE THE PLACEHOLDER BELOW
-        var videoSrc = 'STREAM_URL_PLACEHOLDER';
+        const video = document.getElementById('video');
+        const source = 'STREAM_URL_PLACEHOLDER';
 
         if (Hls.isSupported()) {
-            var hls = new Hls({
-                enableWorker: true,
-                lowLatencyMode: true,
+            const hls = new Hls({
+                // PERFORMANCE TWEAKS START HERE
+                enableWorker: true,        // Offloads processing to background thread
+                lowLatencyMode: true,      // Essential for fast start
+                backBufferLength: 0,       // Don't waste memory on old frames
+                maxBufferLength: 10,       // Keep buffer lean for speed
+                liveSyncDuration: 0.5,     // Stay as close to live as possible
+                liveMaxLatencyDuration: 2, // Force catch-up if it lags
+                manifestLoadingMaxRetry: 10
             });
-            hls.loadSource(videoSrc);
+
+            hls.loadSource(source);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play();
+            
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                video.play().catch(() => {
+                    console.log("Autoplay blocked, waiting for user interaction");
+                });
             });
         } 
         else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = videoSrc;
-            video.addEventListener('loadedmetadata', function() {
-                video.play();
-            });
+            // For Safari/iOS native support
+            video.src = source;
         }
     </script>
 </body>
